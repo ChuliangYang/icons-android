@@ -39,7 +39,7 @@
                 app:layout_constraintEnd_toEndOf="parent" android:id="@+id/rotateIcons"
                 android:visibility="@{viewmodel.isLoading==true?View.GONE:View.VISIBLE}"
                 bind:avatars="@{viewmodel.avatarList}"
-                bind:onAvatarClickListener="@{listener::onAvatarClick}"
+                bind:onAvatarClickListener="@{(view,index)->listener.onAvatarClick(view,index)}"
         >
         </com.qz.rotateicons.view.RotateIconViewGroup>
 

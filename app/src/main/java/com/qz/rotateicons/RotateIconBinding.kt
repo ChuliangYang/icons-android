@@ -9,6 +9,7 @@ import com.qz.rotateicons.view.RotateIconViewGroup
 
 object RotateIconBinding {
     @BindingAdapter("avatars", "onAvatarClickListener", requireAll = false)
+    //RotateIconActionListener必须是函数式接口,也就是单一抽象方法,这样布局中才能用lambda表达式表示
     @JvmStatic fun setAvatars(rotateIcon: RotateIconViewGroup, avatars: List<Avatar>?, onAvatarClickListener:RotateIconActionListener?) {
         if(avatars!=null){
             rotateIcon.removeAllViews()
