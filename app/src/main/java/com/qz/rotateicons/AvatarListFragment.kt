@@ -37,14 +37,14 @@ class AvatarListFragment:Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        rv_avatars.apply {
+        rv_list.apply {
             layoutManager=LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
             adapter=AvatarListAdapter()
         }
 
         viewModel?.avatarList?.observe(this, Observer {
             it?.let {
-                 (rv_avatars.adapter as? AvatarListAdapter)?.submitList(it)
+                 (rv_list.adapter as? AvatarListAdapter)?.submitList(it)
             }
         })
     }

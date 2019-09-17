@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <import
+                type="android.view.View"
+        />
+        <variable
+                name="viewmodel"
+                type="com.qz.rotateicons.rx.RotateViewModelRx"/>
+        <variable
+                name="listener"
+                type="com.qz.rotateicons.RotateIconActionListener" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:clipChildren="false"
+                                                 android:clipToPadding="false">
+
+        <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="@{viewmodel.isLoading==true?View.VISIBLE:View.GONE}"
+        />
+        <com.qz.rotateicons.view.RotateIconViewGroup
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" android:id="@+id/rotateIcons"
+                android:visibility="@{viewmodel.isLoading==true?View.GONE:View.VISIBLE}"
+                bind:avatars="@{viewmodel.avatarList}"
+                bind:onAvatarClickListener="@{(view,index)->listener.onAvatarClick(view,index)}"
+        >
+        </com.qz.rotateicons.view.RotateIconViewGroup>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

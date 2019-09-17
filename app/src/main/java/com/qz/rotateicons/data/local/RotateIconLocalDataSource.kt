@@ -49,3 +49,4 @@ class RotateIconLocalDataSourceImpl(var context: Context): IRotateIconLocalDatas
         CS.report(reportForm)
     }
 }
+

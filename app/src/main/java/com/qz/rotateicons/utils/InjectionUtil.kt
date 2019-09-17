@@ -2,7 +2,6 @@ package com.qz.rotateicons.utils
 
 import android.content.Context
 import android.util.Log
-import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.qz.rotateicons.data.entity.CS
 import com.qz.rotateicons.data.entity.FB
 import com.qz.rotateicons.data.entity.MX
@@ -10,10 +9,17 @@ import com.qz.rotateicons.data.entity.ReportForm
 import com.qz.rotateicons.data.local.RotateIconLocalDataSourceImpl
 import com.qz.rotateicons.data.remote.RotateIconRemoteDataSourceImpl
 import com.qz.rotateicons.data.repos.RotateIconRepositoryImpl
+import com.qz.rotateicons.rx.RotateLocalSourceImpl
+import com.qz.rotateicons.rx.RotateRemoteSourceImpl
+import com.qz.rotateicons.rx.RotateRepoRx
 
 object InjectionUtil {
     fun injectRotateIconRepo(context: Context): RotateIconRepositoryImpl {
         return RotateIconRepositoryImpl(RotateIconLocalDataSourceImpl(context), RotateIconRemoteDataSourceImpl(context))
+    }
+
+    fun injectRotateRepoRx(context: Context):RotateRepoRx{
+        return RotateRepoRx(RotateLocalSourceImpl(context), RotateRemoteSourceImpl())
     }
 
     fun injectCSPlatform(): CS {
