@@ -1,9 +1,9 @@
 package com.qz.rotateicons.rx
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import com.qz.rotateicons.databinding.FragmentRotateIconRxBinding
 import com.qz.rotateicons.utils.fetchViewModel
 import kotlin.concurrent.thread
 
-class RotateIconFragmentRx : Fragment() {
+class RotateIconFragmentRx : androidx.fragment.app.Fragment() {
     private lateinit var viewDataBinding: FragmentRotateIconRxBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

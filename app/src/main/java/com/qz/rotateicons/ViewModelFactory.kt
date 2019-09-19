@@ -1,7 +1,7 @@
 package com.qz.rotateicons
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import android.content.Context
 import com.qz.rotateicons.data.repos.IRotateIconRepository
 import com.qz.rotateicons.rx.RotateRepoRx

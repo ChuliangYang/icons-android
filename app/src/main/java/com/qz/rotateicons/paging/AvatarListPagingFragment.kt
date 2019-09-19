@@ -1,4 +1,4 @@
-package com.qz.rotateicons
+package com.qz.rotateicons.paging
 
 import androidx.lifecycle.Observer
 import android.os.Bundle
@@ -8,15 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.qz.rotateicons.AvatarListAdapter
+import com.qz.rotateicons.R
+import com.qz.rotateicons.RotateIconViewModel
+import com.qz.rotateicons.rx.RotateViewModelRx
 import com.qz.rotateicons.utils.fetchViewModel
 import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import kotlinx.coroutines.*
 
-class AvatarListFragment: androidx.fragment.app.Fragment() {
-    private var viewModel: RotateIconViewModel?=null
+class AvatarListPagingFragment: androidx.fragment.app.Fragment() {
+    private var viewModel: RotateViewModelRx?=null
     private val mainScope= MainScope()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel=(activity as? AppCompatActivity)?.fetchViewModel(RotateIconViewModel::class.java)
+        viewModel=(activity as? AppCompatActivity)?.fetchViewModel(RotateViewModelRx::class.java)
         return inflater.inflate(R.layout.fragment_recyclerview,container,false)
     }
 
@@ -28,7 +32,7 @@ class AvatarListFragment: androidx.fragment.app.Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel?.loadAvatars()
+        viewModel?.loadAvatarPageList()
     }
 
     override fun onDestroy() {
@@ -39,18 +43,16 @@ class AvatarListFragment: androidx.fragment.app.Fragment() {
     private fun setUpRecyclerView() {
         rv_list.apply {
             layoutManager= LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
-            adapter=AvatarListAdapter()
+            adapter= AvatarPageListAdapter()
         }
 
-        viewModel?.avatarList?.observe(this, Observer {
-            it?.let {
-                 (rv_list.adapter as? AvatarListAdapter)?.submitList(it)
-            }
+        viewModel?.avatarPageList?.observe(this, Observer {
+            (rv_list.adapter as AvatarPageListAdapter).submitList(it)
         })
     }
 
     companion object {
-        fun newInstance() = AvatarListFragment().apply {
+        fun newInstance() = AvatarListPagingFragment().apply {
         }
     }
 

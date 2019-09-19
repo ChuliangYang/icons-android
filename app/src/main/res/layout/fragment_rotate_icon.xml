@@ -15,7 +15,7 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:clipChildren="false"
                                                  android:clipToPadding="false">
@@ -43,5 +43,5 @@
         >
         </com.qz.rotateicons.view.RotateIconViewGroup>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

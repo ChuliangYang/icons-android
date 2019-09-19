@@ -1,11 +1,12 @@
 package com.qz.rotateicons
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
+import com.qz.rotateicons.paging.AvatarListPagingFragment
 import com.qz.rotateicons.rx.RotateIconFragmentRx
 import com.qz.rotateicons.rx.RotateViewModelRx
 import com.qz.rotateicons.utils.replaceFragmentInActivity
@@ -20,16 +21,7 @@ class RotateIconActivity : AppCompatActivity() {
         replaceFragmentInActivity(findOrCreateViewFragment(),R.id.content)
     }
 
-    override fun onResume() {
-        super.onResume()
-//        ViewModelProviders.of(this,ViewModelFactory.getInstance(this)).get(RotateViewModelRx::class.java).apply {
-//            sendToActivity.observe(this@RotateIconActivity, Observer {
-//                Toast.makeText(this@RotateIconActivity,it,Toast.LENGTH_SHORT).show()
-//            })
-//        }
-    }
-
     private fun findOrCreateViewFragment() =
         supportFragmentManager.findFragmentById(R.id.content) ?:
-        RotateIconFragmentRx.newInstance()
+        AvatarListPagingFragment.newInstance()
 }

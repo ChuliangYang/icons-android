@@ -15,7 +15,7 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:clipChildren="false"
                                                  android:clipToPadding="false">
@@ -38,10 +38,10 @@
                 app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" android:id="@+id/rotateIcons"
                 android:visibility="@{viewmodel.isLoading==true?View.GONE:View.VISIBLE}"
-                bind:avatars="@{viewmodel.avatarList}"
+                bind:avatars="@{viewmodel.avatarPageList}"
                 bind:onAvatarClickListener="@{(view,index)->listener.onAvatarClick(view,index)}"
         >
         </com.qz.rotateicons.view.RotateIconViewGroup>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -8,7 +8,7 @@
     <data>
         <variable name="avatarItem" type="com.qz.rotateicons.data.entity.Avatar"/>
     </data>
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/constarint">
 
@@ -25,7 +25,7 @@
                 android:text="@{avatarItem.name}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView"
+                android:id="@+id/tv_test"
                 app:layout_constraintTop_toTopOf="@+id/imageView" app:layout_constraintStart_toEndOf="@+id/imageView"
                 android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp"/>
@@ -33,10 +33,10 @@
                 android:text="@{avatarItem.describtion}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView2" app:layout_constraintStart_toStartOf="@+id/textView"
-                app:layout_constraintEnd_toEndOf="@+id/textView" app:layout_constraintTop_toBottomOf="@+id/textView"
+                android:id="@+id/textView2" app:layout_constraintStart_toStartOf="@+id/tv_test"
+                app:layout_constraintEnd_toEndOf="@+id/tv_test" app:layout_constraintTop_toBottomOf="@+id/tv_test"
                 android:layout_marginTop="16dp"
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintVertical_bias="0.0" android:layout_marginBottom="8dp"/>
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

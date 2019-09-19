@@ -1,9 +1,10 @@
 package com.qz.rotateicons.rx
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import android.os.Handler
-import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagedList
 import com.qz.rotateicons.data.entity.Avatar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -11,25 +12,14 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 
-class RotateViewModelRx(val rxRepoRx:RotateRepoRx):RxViewModel(){
-    val avatarList = MutableLiveData<List<Avatar>>()
+class RotateViewModelRx(val rxRepoRx: RotateRepoRx) : RxViewModel() {
+    val avatarPageList = MediatorLiveData<PagedList<Avatar>>()
     val isLoading = MutableLiveData<Boolean>()
     val startRotate = MutableLiveData<Boolean>()
-    val sendToActivity=MutableLiveData<String>()
+    val sendToActivity = MutableLiveData<String>()
+    val avatarList = MutableLiveData<List<Avatar>>()
 
-    fun loadAvatars(){
-        autoDispose(rxRepoRx.getAvatars().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy(onNext = {
-            avatarList.value=it
-            Handler().postDelayed({
-                avatarList.postValue(it.toMutableList().apply {
-                    removeAt(0)
-                    removeAt(3)
-                })
-            },4000 )
-        },onError = {
-            Log.e("123",it.message)
-        }))
-    }
+    private var avatarPageListLiveData: LiveData<PagedList<Avatar>>? = null
 
     fun start() {
         autoDispose(rxRepoRx.getAvatars().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {
@@ -38,23 +28,36 @@ class RotateViewModelRx(val rxRepoRx:RotateRepoRx):RxViewModel(){
             avatarList.value = it
             isLoading.value = false
             startRotate.value = true
-        },onError = {
+        }, onError = {
             isLoading.value = false
         }))
 //        sendToActivity.value="start"
+    }
+
+    fun loadAvatarPageList() {
+        avatarPageListLiveData?.let {
+            avatarPageList.removeSource(it)
+        }
+
+        avatarPageList.addSource(rxRepoRx.getAvatarPageList()) {
+            avatarPageList.value = it
+        }
 
     }
 
+    fun stop() {
+        avatarPageList.value?.let {
+            autoDispose(
+                rxRepoRx.clearAvatars(it).subscribeOn(Schedulers.io()).observeOn(
+                    AndroidSchedulers.mainThread()
+                ).doOnSubscribe {
+                    startRotate.postValue(false)
+                }.subscribeBy(onComplete = {
 
-    fun stop(){
-        avatarList.value?.let {
-            autoDispose(rxRepoRx.clearAvatars(it).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnSubscribe {
-                startRotate.postValue(false)
-            }.subscribeBy(onComplete = {
+                }, onError = {
 
-            },onError = {
-
-            }))
+                })
+            )
         }
     }
 
@@ -62,15 +65,15 @@ class RotateViewModelRx(val rxRepoRx:RotateRepoRx):RxViewModel(){
     }
 }
 
-open class RxViewModel:ViewModel(){
-    val disposables=CompositeDisposable()
+open class RxViewModel : ViewModel() {
+    val disposables = CompositeDisposable()
 
     override fun onCleared() {
         super.onCleared()
         disposables.clear()
     }
 
-    fun autoDispose(disposable: Disposable){
+    fun autoDispose(disposable: Disposable) {
         disposables.add(disposable)
     }
 }

@@ -1,9 +1,9 @@
 package com.qz.rotateicons
 
-import android.support.v7.util.DiffUtil
+import androidx.recyclerview.widget.DiffUtil
 import com.qz.rotateicons.data.entity.Avatar
 
-abstract class ListDiffer <T>(val oldList:List<T>, val newList:List<T>):DiffUtil.Callback() {
+abstract class ListDiffer <T>(val oldList:List<T>, val newList:List<T>): DiffUtil.Callback() {
     override fun getOldListSize(): Int {
         return oldList.size
     }
@@ -22,9 +22,5 @@ class AvatarsDiffer(val moldList: List<Avatar>, val mnewList: List<Avatar>):List
 
     override fun areContentsTheSame(p0: Int, p1: Int): Boolean {
         return moldList[p0] == mnewList[p1]
-    }
-    //按需重写, 把content的field不同通过flag区分, 然后在onBindViewHolder(...payload)中根据flag更新field
-    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
-        return super.getChangePayload(oldItemPosition, newItemPosition)
     }
 }

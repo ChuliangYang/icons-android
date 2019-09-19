@@ -1,13 +1,15 @@
 package com.qz.rotateicons
 
-import android.support.annotation.MainThread
-import android.support.v7.recyclerview.extensions.ListAdapter
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.MainThread
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.qz.rotateicons.data.entity.Avatar
-import com.qz.rotateicons.databinding.ItemAvatarBinding
+import kotlinx.android.synthetic.main.item_avatar.view.*
 import kotlinx.coroutines.*
 
 class AvatarsAdapter(private var avatars: MutableList<Avatar>) : RecyclerView.Adapter<ItemBindingViewHolder<Avatar>>() {
@@ -18,7 +20,7 @@ class AvatarsAdapter(private var avatars: MutableList<Avatar>) : RecyclerView.Ad
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): ItemBindingViewHolder<Avatar> {
-        return ItemBindingViewHolder(ItemAvatarBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ItemBindingViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_avatar,parent, false))
     }
 
     override fun onBindViewHolder(itemViewHolder: ItemBindingViewHolder<Avatar>, position: Int) {
@@ -42,7 +44,7 @@ class AvatarsDiffAdapter(private var avatars: MutableList<Avatar>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): ItemBindingViewHolder<Avatar> {
-        return ItemBindingViewHolder(ItemAvatarBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ItemBindingViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_avatar,parent, false))
     }
 
     override fun onBindViewHolder(itemViewHolder: ItemBindingViewHolder<Avatar>, position: Int) {
@@ -59,7 +61,7 @@ class AvatarsDiffAdapter(private var avatars: MutableList<Avatar>) :
 
     @MainThread
     suspend fun updateDataAsync(avatars: List<Avatar>) {
-        var result:DiffUtil.DiffResult?=null
+        var result: DiffUtil.DiffResult?=null
         withContext(Dispatchers.Default) {
             result=DiffUtil.calculateDiff(AvatarsDiffer(this@AvatarsDiffAdapter.avatars, avatars))
         }
@@ -69,7 +71,7 @@ class AvatarsDiffAdapter(private var avatars: MutableList<Avatar>) :
 }
 
 
-class AvatarListAdapter:ListAdapter<Avatar,ItemBindingViewHolder<Avatar>>(object:DiffUtil.ItemCallback<Avatar>(){
+class AvatarListAdapter: ListAdapter<Avatar, ItemBindingViewHolder<Avatar>>(object:DiffUtil.ItemCallback<Avatar>(){
     override fun areItemsTheSame(oldItem: Avatar, newItem: Avatar): Boolean {
         return oldItem == newItem
     }
@@ -80,7 +82,7 @@ class AvatarListAdapter:ListAdapter<Avatar,ItemBindingViewHolder<Avatar>>(object
 }){
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ItemBindingViewHolder<Avatar> {
-        return ItemBindingViewHolder(ItemAvatarBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ItemBindingViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_avatar,parent, false))
     }
 
     override fun onBindViewHolder(itemViewHolder: ItemBindingViewHolder<Avatar>, position: Int) {
@@ -88,3 +90,28 @@ class AvatarListAdapter:ListAdapter<Avatar,ItemBindingViewHolder<Avatar>>(object
     }
 
 }
+
+class testListAdapter:ListAdapter<Avatar,TestViewHolder>(object : DiffUtil.ItemCallback<Avatar?>() {
+    override fun areItemsTheSame(p0: Avatar, p1: Avatar): Boolean {
+        return p0==p1
+    }
+
+    override fun areContentsTheSame(p0: Avatar, p1: Avatar): Boolean {
+        return true
+    }
+}) {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): TestViewHolder {
+        return TestViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.item_avatar,p0,false))
+    }
+
+    override fun onBindViewHolder(p0: TestViewHolder, p1: Int) {
+        p0.itemView.apply {
+            tv_test.text = "123"
+
+        }
+    }
+}
+
+
+class TestViewHolder(val view: View):RecyclerView.ViewHolder(view)
+

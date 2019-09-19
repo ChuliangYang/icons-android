@@ -19,7 +19,7 @@ object InjectionUtil {
     }
 
     fun injectRotateRepoRx(context: Context):RotateRepoRx{
-        return RotateRepoRx(RotateLocalSourceImpl(context), RotateRemoteSourceImpl())
+        return RotateRepoRx(RotateLocalSourceImpl(context), RotateRemoteSourceImpl(),context.applicationContext)
     }
 
     fun injectCSPlatform(): CS {

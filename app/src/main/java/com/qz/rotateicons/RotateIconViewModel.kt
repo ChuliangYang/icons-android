@@ -1,8 +1,9 @@
 package com.qz.rotateicons
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import android.os.Handler
+import androidx.paging.PagedList
 import com.qz.rotateicons.data.entity.Avatar
 import com.qz.rotateicons.data.local.IRotateIconLocalDatasource
 import com.qz.rotateicons.data.repos.IRotateIconRepository
@@ -14,7 +15,7 @@ class RotateIconViewModel(private val rotateIconRepository: IRotateIconRepositor
     val avatarList = MutableLiveData<List<Avatar>>()
     val isLoading = MutableLiveData<Boolean>()
     val startRotate = MutableLiveData<Boolean>()
-
+    val avatarPageList=MutableLiveData<PagedList<Avatar>>()
     fun start() {
         isLoading.value = true
         rotateIconRepository.getAvatars(this)
@@ -45,6 +46,8 @@ class RotateIconViewModel(private val rotateIconRepository: IRotateIconRepositor
 
         })
     }
+
+
 
     override fun onAvatarsLoaded(avatars: List<Avatar>) {
         avatarList.value = avatars
